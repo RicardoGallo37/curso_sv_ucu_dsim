@@ -1,7 +1,5 @@
-`include "./traffic_light_controller.sv"
 
 module fsm_tb;
-
 
 // Define any parameters or variables you might need here in order to connect the FSM
 ????
