@@ -1,2 +1,3 @@
-# curso_sv_ucu
-Repositorio para laboratorios del curso de SV en la UCU, 2023
+# Curso System Verilog Rydev
+
+This is a fork of original Alfonso Chacon course in order to introduce DSim tool
