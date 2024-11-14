@@ -17,6 +17,10 @@ simulations:
     options: >-
       -top counter_tb -sv -j 10 -L LAB_0_library +acc +b -g -timescale 1ns/1ps
       -waves waves_counter.vcd -build-all
+  - name: LAB_2_test
+    options: >-
+      -top counter_ud_tb -sv -j 10 -L LAB_2_library +acc +b -g -timescale
+      1ns/1ps -waves waves_counter.mxd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist
@@ -25,6 +29,10 @@ source_files:
   - language: verilog
     path: labs/tutorial/filelist
     library_name: LAB_0_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/lab2/filelist
+    library_name: LAB_2_library
     file_list: relative-to-file
 library_search_paths:
   - $STD_LIBS/ieee93

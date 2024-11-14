@@ -4,17 +4,19 @@
 module counter_ud_tb; 
 
   parameter WIDTH = 5;
+
   logic clk, reset, enable; 
   logic [WIDTH-1:0] count; 
   logic [WIDTH-1:0] count_compare; 
 
-  counter_ud #(.N(WIDTH)) DUT // Testing a 5-bits Up counter
-          (
-  .clk    (clk), 
-  .reset  (reset),
-  .enable (enable),
-  .q      (count) 
-  ); 
+  counter_ud #(
+    .N(WIDTH)) DUT // Testing a 5-bits Up counter
+  (
+    .i_clk    (clk), 
+    .i_reset  (reset),
+    .i_enable (enable),
+    .o_q      (count) 
+  );
 
 //Providing initial value to signals   
   initial begin
