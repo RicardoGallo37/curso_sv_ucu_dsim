@@ -1,27 +1,26 @@
 `timescale 1ns/100ps
-`include "bus_definitions.sv" //Compile the package
-`include "./fifosc.sv"
 // We're going to use some basic SV features, but not UVM still
 
 module test_FIFO;
+  import bus_definitions::*; //Import Bus Definitions package into $unit
 
-    parameter clk_per = 10 ;
-    integer i;
+  parameter CLK_PER = 10 ;
+  integer i;
 
-    logic clk;                    //master clock
-    logic push, pop, reset_fifo; //push, pop, reset_fifo signals
-    logic pndng, full;          //Status variables from FIFO
+  logic clk;                    //master clock
+  logic push, pop, reset_fifo; //push, pop, reset_fifo signals
+  logic pndng, full;          //Status variables from FIFO
 
-    // Input and output data from FIFO                  
-    logic [ws-1:0] DataIn;
-    logic [ws-1:0] DataOut;
+  // Input and output data from FIFO                  
+  logic [WS-1:0] DataIn;
+  logic [WS-1:0] DataOut;
 
-//We're using the default definitions. modify for larger FIFOs
-//parameter ws = 4, depth=8, as=$clog2(depth);
+  //We're using the default definitions. modify for larger FIFOs
+  //parameter WS = 4, DEPTH=8, AS=$clog2(DEPTH);
 
-// This is the FIFO
-fifosc FIFO1(.DataIn(DataIn), .DataOut(DataOut), .clk(clk),
-            .reset_fifo(reset_fifo), .push(push), .pop(pop), .pndng(pndng), .full(full));
+  // This is the FIFO
+  fifosc FIFO1(.i_DataIn(DataIn), .o_DataOut(DataOut), .i_clk(clk),
+              .i_reset_fifo(reset_fifo), .i_push(push), .pop(pop), .pndng(pndng), .full(full));
 
 
 initial 
@@ -85,12 +84,12 @@ initial
 initial   
       begin
 			clk=0;
-			#1 forever #(clk_per/2) clk=~clk;
+			#1 forever #(CLK_PER/2) clk=~clk;
 
       end 
     
 //Task for reading the memory. Performs in a clock cycle
-/*task readRF (input [as-1:0] addr);
+/*task readRF (input [AS-1:0] addr);
     //We use some delay in order to simulate the RF setup/hold time
     @(negedge clk) AddrRd=addr;
     #1 rd=1;
@@ -101,8 +100,8 @@ endtask*/
 
 //Task for writing the memory. Performs in a clock cycle
 /*task writeRF (
-    input [as-1:0] addr,
-    input [ws-1:0] data_in);
+    input [AS-1:0] addr,
+    input [WS-1:0] data_in);
     //We use some delay in order to simulate the RF setup time
     @(negedge clk) AddrWr=addr;
     DataWr=data_in;

@@ -1,15 +1,11 @@
-`ifndef DEFS_DONE //if the already-compiled flag is not set
-    `define DEFS_DONE //set the flag
-
-
     package bus_definitions;
 
         parameter VERSION = "0.1";
         //General sizing parameters for the FIFOs dimensions and the bus width
-        //ws = wordsize in bits, depth= FIFO's depth (number of words in FIFO),
-        //as = $clog2(depth) Address size for the FIFO
-        //the are given as package parameter definitions in bus_definitions.sv
-        parameter ws = 4, depth=8, as=$clog2(depth);
+        //WS = wordsize in bits, DEPTH= FIFO's DEPTH (number of words in FIFO),
+        //AS = $clog2(DEPTH) Address size for the FIFO
+        //the are given AS package parameter definitions in bus_definitions.sv
+        parameter WS = 4, DEPTH=8, AS=$clog2(DEPTH);
 
 
         //Type definitions for the FIFO State Machines
@@ -28,10 +24,4 @@
                                  insert_remove = 4'b0001 << insert_remove_bit } fifo_fsm_states_t; 
                                  //FSM states to determine whether to pop and/or push from the Register File
 
-
-
-
     endpackage
-
-    import bus_definitions::*; //Import Bus Definitions package into $unit
-`endif

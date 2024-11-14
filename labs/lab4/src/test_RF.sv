@@ -1,20 +1,20 @@
 `timescale 1ns/100ps
 
-`include "./RegFile.sv" 
-
 module test_RF;
 
-    parameter ws= 4, depth=8, as=$clog2(depth);
+    import bus_definitions::*; //Import Bus Definitions package into $unit
+
+    parameter WS = 4, DEPTH=8, AS=$clog2(DEPTH);
     parameter clk_per = 20 ;
     integer i;
-    reg  signed [as-1:0] RndAddr;
+    reg  signed [AS-1:0] RndAddr;
 
     reg clk; //master clock
     reg wr, rd, reset;
     //reg push, pop;
-    reg [as-1:0] AddrWr, AddrRd;
-    reg [ws-1:0] DataWr;
-    tri [ws-1:0] DataRd;
+    reg [AS-1:0] AddrWr, AddrRd;
+    reg [WS-1 :0] DataWr;
+    tri [WS-1 :0] DataRd;
 
 
 // This is the memory bank, register file style
@@ -38,12 +38,12 @@ initial begin
     @(negedge clk) reset =0;
     //First two writes at random followed by a read on the last position
     @(negedge clk);
-    RndAddr=$random%as; //as-bit Random Address 
+    RndAddr=$random%AS; //AS-bit Random Address 
     wait_task(1); 
     writeRF(RndAddr,4'hA);
     //We wait 2 clocks
     wait_task(2);
-    RndAddr=$random%as; //as-bit Random Address 
+    RndAddr=$random%AS; //AS-bit Random Address 
     writeRF(RndAddr, 4'h5);
     wait_task(2);
     readRF(RndAddr);
@@ -62,7 +62,7 @@ end
       end 
     
 //Task for reading the memory. Performs in a clock cycle
-task readRF (input [as-1:0] addr);
+task readRF (input [AS-1:0] addr);
     //We use some delay in order to simulate the RF setup/hold time
     @(negedge clk) AddrRd=addr;
     #1 rd=1;
@@ -73,8 +73,8 @@ endtask
 
 //Task for writing the memory. Performs in a clock cycle
 task writeRF (
-    input [as-1:0] addr,
-    input [ws-1:0] data_in);
+    input [AS-1:0] addr,
+    input [WS-1 :0] data_in);
     //We use some delay in order to simulate the RF setup time
     @(negedge clk) AddrWr=addr;
     DataWr=data_in;

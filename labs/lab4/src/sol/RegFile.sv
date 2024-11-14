@@ -4,90 +4,74 @@
 //
 // Primitives are taken from RGR's library
 
-`ifndef SYNTH_LIB_INC // if the synthesis library has not been included
-   `include "./synth_prim_library.sv" // Do so
-`endif  
-
-`include "bus_definitions.sv" //Compile the package
-
 module RegFile (
-   input logic [ws-1:0] DataIn,
-   input logic clk,
-   input logic reset,
-   input logic wr,
-   input logic rd,
-   input logic [as-1:0] AddrRd,
-   input logic [as-1:0] AddrWr,
-   inout wire [ws-1:0] DataOut
+   input logic [WS-1:0] i_DataIn,
+   input logic i_clk,
+   input logic i_reset,
+   input logic i_wr,
+   input logic i_rd,
+   input logic [AS-1:0] i_AddrRd,
+   input logic [AS-1:0] i_AddrWr,
+   inout wire [WS-1:0] o_DataOut
  );
 
-//parameter ws = 4, depth=8, as=$clog2(depth); 
-//ws = wordsize in bits, depth= FIFO's depth (number of words in FIFO)
+//parameter WS = 4, DEPTH=8, AS=$clog2(DEPTH); 
+//WS = wordsize in bits, DEPTH= FIFO's DEPTH (number of words in FIFO)
 //Come from the package definitions in bus_definitions.pkg
 
 // Internal signals
 // For input/output decos
 // Determine the right indexing
 
-    wire [depth-1:0] InEn; // Wiring for selection of InData
-    wire [depth-1:0] OutEn; // Wiring for selection of OutData
+    wire [DEPTH-1:0] InEn; // Wiring for selection of InData
+    wire [DEPTH-1:0] OutEn; // Wiring for selection of OutData
 
 // Wiring for the RF's outputs
 // Determine the right indexing
 
-   wire [ws-1:0] RF_Q [depth-1:0]; // Wiring for data coming out of the RF
+   wire [WS-1:0] RF_Q [DEPTH-1:0]; // Wiring for data coming out of the RF
 
-// First we need the decos for input/output
-// These decos get the address for reading and writing and generate the decoded
-// control that enables the input register in the RF to be written or the
-// output register to be read from the RF accordingly. 
+   // First we need the decos for input/output
+   // These decos get the address for reading and writing and generate the decoded
+   // control that enables the input register in the RF to be written or the
+   // output register to be read from the RF accordingly. 
 
-//Input Deco
-// Wire the correct control signals
+   //Input Deco
+   // Wire the correct control signals
+   generic_deco_N_M  #($clog2(DEPTH),DEPTH) deco_In(.En(i_wr), .N(i_AddrWr), .M(InEn));
 
-generic_deco_N_M  #($clog2(depth),depth) deco_In(.En(wr), .N(AddrWr), .M(InEn));
+   //Output Deco
+   // Wire the correct control signals
+   generic_deco_N_M #($clog2(DEPTH),DEPTH) deco_Out(.En(i_rd),.N(i_AddrRd),.M(OutEn));
 
- //Output Deco
- // Wire the correct control signals
-generic_deco_N_M #($clog2(depth),depth) deco_Out(.En(rd),.N(AddrRd),.M(OutEn));
+   //
+   // RF instantiation (DEPTH is the number of WS-bit sized FFs )
+   //
+   // InEn[DEPTH-1:0] are the Enables for the FFs
+   // RF_Q[i] es la salida de cada FF individual del RF
+   // OutEn[DEPTH-1:0] are the Enables for the buffers
 
-//
-// RF instantiation (depth is the number of ws-bit sized FFs )
-//
-// InEn[depth-1:0] are the Enables for the FFs
-// RF_Q[i] es la salida de cada FF individual del RF
-// OutEn[depth-1:0] are the Enables for the buffers
- 
+   genvar i,j;
+   generate
+      for (i=0; i< DEPTH; i=i+1) begin: FFx_
+         assign enable_in_ =(InEn[i]);
+         //assign FF_out_ =(RF_Q[i]);
+         prll_d_en_reg #(WS) rf_ff_bank_(.i_clk(i_clk), .i_reset(i_reset),.wr_en(enable_in_),.D_in(i_DataIn), .D_out(RF_Q[i]));
+      end
+   endgenerate
 
-genvar i,j;
-generate
-	for (i=0; i< depth; i=i+1)
-	begin:FFx_
-	   assign enable_in_ =(InEn[i]);
-      //assign FF_out_ =(RF_Q[i]);
-	   prll_d_en_reg #(ws) rf_ff_bank_(.clk(clk), .reset(reset),.wr_en(enable_in_),.D_in(DataIn), .D_out(RF_Q[i]));
-   end
-
-endgenerate
-
-//We generate the Ouput Mux (3-state ws-sized buffers actually)
-// OutEn[depth-1:0] are the Enables for the buffers
-// DataOut[i] is the ws-bit sized individual output of each buffer that generates DataOut[depth-1:0] 
- // We need to generate the ws-sized buffers in another module: tri_buf_N
-// Careful here: tri_buf_N uses the same convention as the bufif primitive, i.e. (output, input, control)
+//We generate the Ouput Mux (3-state WS-sized buffers actually)
+// OutEn[DEPTH-1:0] are the Enables for the buffers
+// o_DataOut[i] is the WS-bit sized individual output of each buffer that generates o_DataOut[DEPTH-1:0] 
+ // We need to generate the WS-sized buffers in another module: tri_buf_N
+// Careful here: tri_buf_N uses the same convention AS the bufif primitive, i.e. (output, input, control)
 //               We'd better use explicit assignment
-genvar k;
-generate
-	for (k=0; k< depth; k=k+1)
-	begin:buffer_x1
-	   assign enable_out =(OutEn[k]);
-		tri_buf_N #(ws) tri_buf_ws_(.Y(DataOut), .X(RF_Q[k]), .enable(enable_out));
-   end
-
-endgenerate
- 
-
-
-
+   genvar k;
+   generate
+      for (k=0; k< DEPTH; k=k+1) begin: buffer_x1
+         assign enable_out =(OutEn[k]);
+      	tri_buf_N #(WS) tri_buf_ws_(.Y(o_DataOut), .X(RF_Q[k]), .enable(enable_out));
+      end
+   endgenerate
 
 endmodule
