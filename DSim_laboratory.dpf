@@ -4,7 +4,11 @@
 version: '0.2'
 work_dir: .
 design_root_dir: .
-simulations: []
+simulations:
+  - name: LAB_1_test_decoder
+    options: >-
+      -top deco_tb -sv -j 10 -L LAB_1_library +acc +b -g -timescale 1ns/1ps
+      -waves waves_param_decoder.mxd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist

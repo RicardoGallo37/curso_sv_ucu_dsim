@@ -8,9 +8,9 @@ module deco_tb;
   param_decoder #(
     .DEPTH(DEPTH)
   ) deco_u1 (
-    .deco_in(deco_in),    //  N-bit select input
-    .deco_out(deco_out),  //  M-bit out 
-    .enable(enable)       //  Enable for the decoder
+    .i_deco_in(deco_in),    //  N-bit select input
+    .o_deco_out(deco_out),  //  M-bit out 
+    .i_enable(enable)       //  Enable for the decoder
   );
 
   initial begin
