@@ -1,4 +1,4 @@
-`timescale 1ns/100ps
+//`timescale 1ns/100ps
 
 module test_RF;
 
@@ -7,19 +7,19 @@ module test_RF;
     parameter WS = 4, DEPTH=8, AS=$clog2(DEPTH);
     parameter clk_per = 20 ;
     integer i;
-    reg  signed [AS-1:0] RndAddr;
+    logic  signed [AS-1:0] RndAddr;
 
-    reg clk; //master clock
-    reg wr, rd, reset;
-    //reg push, pop;
-    reg [AS-1:0] AddrWr, AddrRd;
-    reg [WS-1 :0] DataWr;
+    logic clk; //master clock
+    logic wr, rd, reset;
+    //logic push, pop;
+    logic [AS-1:0] AddrWr, AddrRd;
+    logic [WS-1 :0] DataWr;
     tri [WS-1 :0] DataRd;
 
 
-// This is the memory bank, register file style
-RegFile RF1(.DataIn(DataWr), .DataOut(DataRd), .clk(clk),
-            .reset(reset), .wr(wr), .rd(rd), .AddrWr(AddrWr), .AddrRd(AddrRd));
+  // This is the memory bank, register file style
+  RegFile RF1(.i_DataIn(DataWr), .o_DataOut(DataRd), .i_clk(clk),
+              .i_reset(reset), .i_wr(wr), .i_rd(rd), .i_AddrWr(AddrWr), .i_AddrRd(AddrRd));
 
 
 initial begin

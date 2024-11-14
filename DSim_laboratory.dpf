@@ -25,6 +25,10 @@ simulations:
     options: >-
       -top fsm_tb -sv -j 10 -L LAB_3_library +acc +b -g -timescale 1ns/1ps
       -waves waves_traffic_light_controller.mxd -build-all
+  - name: LAB_4_test_RF
+    options: >-
+      -top test_RF -sv -j 10 -L LAB_4_library +acc +b -g -timescale 1ns/100ps
+      -waves waves_register_file.mxd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist
@@ -41,6 +45,10 @@ source_files:
   - language: verilog
     path: labs/lab3/filelist
     library_name: LAB_3_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/lab4/filelist
+    library_name: LAB_4_library
     file_list: relative-to-file
 library_search_paths:
   - $STD_LIBS/ieee93
