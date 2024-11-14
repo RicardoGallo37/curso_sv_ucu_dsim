@@ -15,9 +15,9 @@ logic [(DEPTH)-1:0] hot_bit_slct;
 
 //Connect the deco. 
   param_decoder #(.DEPTH(DEPTH)) deco_u0 (
-    .deco_in(i_select),       //
-    .deco_out(hot_bit_slct),  //  
-    .enable(1'b1)             //  Deco always enabled
+    .i_deco_in(i_select),       //
+    .o_deco_out(hot_bit_slct),  //  
+    .i_enable(1'b1)             //  Deco always enabled
   );
 
   always_comb begin
