@@ -1,71 +1,62 @@
 module traffic_light_controller (
-  input logic  i_clk,
-  input logic  i_reset,
-  input logic  i_car,
+  input logic i_clk,
+  input logic i_reset,
+  input logic i_car,
 
   output logic o_red, 
   output logic o_yellow, 
   output logic o_green
 );
 
-  typedef enum logic [1:0] {S0 = 2'b00,
-                            S1 = 2'b01,
-                            S2 = 2'b10,
-                            S3 = 2'b11} state_vector;
+  typedef enum logic [1:0] {
+    S0 = 2'b00,
+    S1 = 2'b01,
+    S2 = 2'b10,
+    S3 = 2'b11 // This state is defined but not used in the current FSM
+  } state_vector;
 
-  //state_vector current_state
-  state_vector  current_state, next_state;
+  // Current state and next state variables
+  state_vector current_state, next_state;
 
-//logic o_red, o_yellow, o_green;
-
-  /*------- Sequential Logic ----*/
-  always_ff@(posedge i_clk or negedge i_reset) begin
+  // Sequential logic for state transitions
+  always_ff @(posedge i_clk or negedge i_reset) begin
     if (!i_reset) begin
-      current_state <= S0;
+      current_state <= S0; // Reset to initial state
     end else begin
-      current_state <= next_state;
+      current_state <= next_state; // Transition to next state
     end
+  end
 
-  // next state logic
+  // Combinational logic for next state transitions
   always_comb begin
-    //What would you need to add in order to check for a emergency input signal?
-    unique case (current_state) // Ensure a paralell case (no priority)
+    unique case (current_state) // Ensure a parallel case (no priority)
       S0: begin 
-      //Stay in SO while there is no i_car
-              if (i_car) 
-                  next_state = S1;
-              else 
-                  next_state = S0;
-          end
-      S1: begin
-              next_state = S2; //Stay on S1 for one i_clk
-          end
-      S2 : begin
-              next_state = S0; // Stay on S2 for one i_clk
-          end
-      default : next_state = S0;
+        if (i_car) 
+          next_state = S1; // Move to S1 if car is detected
+        else 
+          next_state = S0; // Stay in S0 if no car
+      end
+      S1: next_state = S2; // Stay in S1 for one clock cycle
+      S2: next_state = S0; // Stay in S2 for one clock cycle
+      default: next_state = S0; // Default to S0
     endcase
   end
 
-  // output state logic
+  // Combinational logic for output signals based on current state
   always_comb begin
-    o_red    = 0; 
+    o_red = 0; 
     o_yellow = 0; 
-    o_green  = 0;  // defaults to prevent latches
-    unique case (current_state) // Ensure a paralell case (no priority)
-      S0: begin
-        o_red = 1; //o_Red light at first, while there is no i_car
-      end
-      S1: begin
-        o_yellow     = 1;
-      end
-      S2 : begin
-        o_green      = 1;
-      end
-      default : o_red = 1;
+    o_green = 0; // Defaults to prevent latches
+
+    unique case (current_state) // Ensure a parallel case (no priority)
+      S0: o_red = 1; // Red light in state S0
+      S1: o_yellow = 1; // Yellow light in state S1
+      S2: o_green = 1; // Green light in state S2
+      default: o_red = 1; // Default to red light
     endcase
   end
 
-//What would you add in order to make the lights stay for several i_clk, with a higher speed i_clk?
+  // Additional logic to extend the duration of the states
+  // Add software timers using counters if necessary
 
 endmodule
