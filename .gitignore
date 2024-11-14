@@ -33,3 +33,11 @@ transcript
 *.log
 *.log.gz
 labs/tutorial/transcript
+*.log
+*.env
+*.mxd
+*.vcd
+*.fst
+*.db
+*.ron
+**/dsim_work/*
