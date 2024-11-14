@@ -1,0 +1,2 @@
+./src/counter.sv
+./src/counter_tb.sv

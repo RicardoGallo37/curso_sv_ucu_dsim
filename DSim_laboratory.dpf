@@ -13,10 +13,18 @@ simulations:
     options: >-
       -top mux_tb -sv -j 10 -L LAB_1_library +acc +b -g -timescale 1ns/1ps
       -waves waves_param_mux.mxd -build-all
+  - name: LAB_0_test
+    options: >-
+      -top counter_tb -sv -j 10 -L LAB_0_library +acc +b -g -timescale 1ns/1ps
+      -waves waves_counter.vcd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist
     library_name: LAB_1_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/tutorial/filelist
+    library_name: LAB_0_library
     file_list: relative-to-file
 library_search_paths:
   - $STD_LIBS/ieee93
