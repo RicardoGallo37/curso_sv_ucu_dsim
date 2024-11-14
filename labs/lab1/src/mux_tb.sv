@@ -1,24 +1,25 @@
 module mux_tb;
 
-parameter DEPTH = 8; 
-parameter WORD_SIZE = 8; 
-logic [$clog2(DEPTH)-1:0] select_in; //This variable is going to be random, to start using SV particular capabilities
-logic [WORD_SIZE-1:0]     mux_in[(DEPTH)-1:0]; //Input vector
-logic [DEPTH-1:0]         mux_out;
-logic [WORD_SIZE-1:0]     mux_in_sel; //A temporal variable to store the word we want to sent thought the mux
-int errors;
+  parameter DEPTH = 8; 
+  parameter WORD_SIZE = 8; 
+
+  logic [$clog2(DEPTH)-1:0] select_in; //This variable is going to be random, to start using SV particular capabilities
+  logic [WORD_SIZE-1:0]     mux_in[(DEPTH)-1:0]; //Input vector
+  logic [DEPTH-1:0]         mux_out;
+  logic [WORD_SIZE-1:0]     mux_in_sel; //A temporal variable to store the word we want to sent thought the mux
+  int errors;
 
 
-param_mux #(.DEPTH(DEPTH), .WORD_SIZE(WORD_SIZE)) deco_u1 
-(.i_select(select_in),    //  N-bit select input
- .i_input_signal(mux_in),  //  M-bit out 
- .o_out(mux_out)       //  Enable for the decoder
-);
+  param_mux #(
+    .DEPTH(DEPTH),
+    .WORD_SIZE(WORD_SIZE)
+  ) deco_u1 (
+    .i_select(select_in),    //  N-bit select input
+    .i_input_signal(mux_in),  //  M-bit out 
+    .o_out(mux_out)       //  Enable for the decoder
+  );
 
-
-
-initial begin
-
+  initial begin
     $monitor("[%0t]\t select_in=%d\t mux_in_sel=%d\t mux_out=%d",
     $time, select_in, mux_in_sel, mux_out);
     // First, let's ramdomnly populate the input array
@@ -48,8 +49,8 @@ initial begin
       end
     end
     #2 $display("6 tests completed with %d errors", 
-	           errors); 
+             errors); 
     #5 $finish;
-end
+  end
 
 endmodule
