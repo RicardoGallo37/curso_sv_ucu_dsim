@@ -1,4 +1,4 @@
-`timescale 1ns/100ps
+//`timescale 1ns/100ps
 // We're going to use some basic SV features, but not UVM still
 
 module test_FIFO;

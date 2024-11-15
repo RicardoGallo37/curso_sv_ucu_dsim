@@ -15,6 +15,8 @@ module RegFile (
    inout logic [WS-1:0] o_DataOut
 );
 
+  import bus_definitions::*;
+
    //parameter WS = 4, DEPTH=8, AS=$clog2(DEPTH); 
    //WS = wordsize in bits, DEPTH= FIFO's DEPTH (number of words in FIFO)
    //Come from the package definitions in bus_definitions.pkg

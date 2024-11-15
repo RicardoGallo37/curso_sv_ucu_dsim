@@ -12,8 +12,8 @@ module fifosc(
   output  logic o_pndng,      //FIFO not empty yet
   output  logic o_full,       //FIFO's o_full
 
-  input  logic [WS-1:0] i_DataIn, //FIFO's input data
-  output logic [WS-1:0] o_DataOut //FIFO's registered output data
+  input  logic [bus_definitions::WS-1:0] i_DataIn, //FIFO's input data
+  output logic [bus_definitions::WS-1:0] o_DataOut //FIFO's registered output data
 ); 
 
   import bus_definitions::*;
