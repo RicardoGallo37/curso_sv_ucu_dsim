@@ -54,5 +54,25 @@ source_files:
     path: labs/lab4/filelist
     library_name: LAB_4_library
     file_list: relative-to-file
+  - language: verilog
+    path: labs/lab5_1/filelist
+    library_name: LAB_5_1_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/lab5_2/filelist
+    library_name: LAB_5_2_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/lab6/filelist
+    library_name: LAB_6_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/lab7/filelist
+    library_name: LAB_7_library
+    file_list: relative-to-file
+  - language: verilog
+    path: labs/lab8/filelist
+    library_name: LAB_8_library
+    file_list: relative-to-file
 library_search_paths:
   - $STD_LIBS/ieee93
