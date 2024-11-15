@@ -12,13 +12,13 @@ module cnt_tb;
 
   cnt_if 	  cnt_if0 (clk); //Interface is instantiated
 
-  counter_ud  c0 (  .clk      (cnt_if0.clk),
-                    .rstn     (cnt_if0.rstn),
-                    .load     (cnt_if0.load),
-                    .load_en  (cnt_if0.load_en),
-                    .down     (cnt_if0.down),
-                    .rollover (cnt_if0.rollover),
-                    .count    (cnt_if0.count));
+  counter_ud  c0 (  .i_clk      (cnt_if0.clk),
+                    .i_rstn     (cnt_if0.rstn),
+                    .i_load     (cnt_if0.load),
+                    .i_load_en  (cnt_if0.load_en),
+                    .i_down     (cnt_if0.down),
+                    .o_rollover (cnt_if0.rollover),
+                    .o_count    (cnt_if0.count));
 
   initial begin
     bit load_en, down;
