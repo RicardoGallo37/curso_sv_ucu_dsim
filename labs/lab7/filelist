@@ -1,0 +1,7 @@
+./src/packages/fifo_driver.sv
+./src/packages/fifo_ports.sv
+./src/packages/fifo_sb.sv
+./src/rtl/ram_dp_ar_aw.sv
+./src/rtl/shrtl_lib_and2.sv
+./src/rtl/syn_fifo.sv
+./test/fifo_tb.sv

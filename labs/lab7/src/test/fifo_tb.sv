@@ -15,29 +15,29 @@ wire full, empty;
 wire [DATA_WIDTH-1:0] data_out ;
 
 fifo_ports ports (
-  .clk           (clk     ),
-  .rst           (rst     ),
-  .wr_cs         (wr_cs   ),
-  .rd_cs         (rd_cs   ),
-  .rd_en         (rd_en   ),
-  .wr_en         (wr_en   ),
-  .data_in       (data_in ),
-  .full          (full    ),
-  .empty         (empty   ),
-  .data_out      (data_out)
+  .i_clk           (clk     ),
+  .o_rst           (rst     ),
+  .o_wr_cs         (wr_cs   ),
+  .o_rd_cs         (rd_cs   ),
+  .o_rd_en         (rd_en   ),
+  .o_wr_en         (wr_en   ),
+  .o_data_in       (data_in ),
+  .i_full          (full    ),
+  .i_empty         (empty   ),
+  .i_data_out      (data_out)
 );
 
 fifo_monitor_ports mports (
-  .clk           (clk     ),
-  .rst           (rst     ),
-  .wr_cs         (wr_cs   ),
-  .rd_cs         (rd_cs   ),
-  .rd_en         (rd_en   ),
-  .wr_en         (wr_en   ),
-  .data_in       (data_in ),
-  .full          (full    ),
-  .empty         (empty   ),
-  .data_out      (data_out)
+  .i_clk           (clk     ),
+  .i_rst           (rst     ),
+  .i_wr_cs         (wr_cs   ),
+  .i_rd_cs         (rd_cs   ),
+  .i_rd_en         (rd_en   ),
+  .i_wr_en         (wr_en   ),
+  .i_data_in       (data_in ),
+  .i_full          (full    ),
+  .i_empty         (empty   ),
+  .i_data_out      (data_out)
 );
 
 //connect here the test fifo_top
