@@ -4,4 +4,4 @@
 ./src/rtl/ram_dp_ar_aw.sv
 ./src/rtl/shrtl_lib_and2.sv
 ./src/rtl/syn_fifo.sv
-./test/fifo_tb.sv
+./src/test/fifo_tb.sv
