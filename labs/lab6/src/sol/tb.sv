@@ -8,14 +8,14 @@ module tb;
   always #10 clk = ~clk;
   reg_if _if (clk);
 
-  reg_ctrl u0 ( .clk (clk),
-            	.addr (_if.addr),
-               	.rstn(_if.rstn),
-            	.sel  (_if.sel),
-               	.wr (_if.wr),
-            	.wdata (_if.wdata),
-            	.rdata (_if.rdata),
-            	.ready (_if.ready));
+  reg_ctrl u0 ( .clk    (clk),
+                .addr   (_if.addr),
+                .rstn   (_if.rstn),
+                .sel    (_if.sel),
+                .wr     (_if.wr),
+                .wdata  (_if.wdata),
+                .rdata  (_if.rdata),
+                .ready  (_if.ready));
 
   initial begin
     new_test t0;
@@ -43,4 +43,5 @@ module tb;
     $dumpvars;
     $dumpfile("dump.vcd");
   end
+
 endmodule

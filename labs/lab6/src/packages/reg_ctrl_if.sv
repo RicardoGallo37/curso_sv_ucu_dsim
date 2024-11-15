@@ -9,4 +9,3 @@ interface reg_if (input bit clk);
   logic 		sel;
   logic 		ready;
 endinterface
-

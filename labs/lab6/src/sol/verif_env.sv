@@ -1,8 +1,4 @@
 
-//In order to avoid multiple definitions
-//`ifndef VERIF_ENV_DEF
-    `define VERIF_ENV_DEF
-
 class reg_item;
   // This is the base transaction object that will be used
   // in the environment to initiate new transactions and

@@ -3,10 +3,6 @@
 // the reset can also be a part of the test class in which case all you need
 // to do is start the test's run method.
 
-`include "../packages/verif_env.sv"
-`include "../packages/reg_ctrl_if.sv"
-`include "../rtl/reg_ctrl.sv"
-
 module tb;
   reg clk;
 
