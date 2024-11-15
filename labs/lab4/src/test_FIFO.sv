@@ -20,7 +20,7 @@ module test_FIFO;
 
   // This is the FIFO
   fifosc FIFO1(.i_DataIn(DataIn), .o_DataOut(DataOut), .i_clk(clk),
-              .i_reset_fifo(reset_fifo), .i_push(push), .pop(pop), .pndng(pndng), .full(full));
+              .i_reset_fifo(reset_fifo), .i_push(push), .i_pop(pop), .o_pndng(pndng), .o_full(full));
 
 
 initial 
