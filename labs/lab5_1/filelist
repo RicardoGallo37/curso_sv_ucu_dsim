@@ -1,0 +1,4 @@
+./src/definitions_pkg.sv
+./src/cnt_if.sv
+./src/counter_ud.sv
+./src/cnt_tb.sv

@@ -4,7 +4,7 @@
 
     package bus_definitions;
 
-        parameter VERSION = "0.1";
+        parameter VERSION = "Rydev DSim System Verilog Course";
         //General sizing parameters for the FIFOs dimensions and the bus width
         //ws = wordsize in bits, depth= FIFO's depth (number of words in FIFO),
         //as = $clog2(depth) Address size for the FIFO

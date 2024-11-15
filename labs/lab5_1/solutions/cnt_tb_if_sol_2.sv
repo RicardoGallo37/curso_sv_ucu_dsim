@@ -1,10 +1,11 @@
 // Testbench solution for using interfaces both into the counter and the tb
 
-`timescale 1ns/1ps
+// `timescale 1ns/1ps
 module cnt_tb;
-   logic clk;
 
-   import definitions_pkg::*; // Defintions package imported
+  logic clk;
+
+  import definitions_pkg::*; // Defintions package imported
 
   // TB Clock Generator used to provide the design
   // with a clock -> here half_period = 10ns => 50 MHz
@@ -21,7 +22,7 @@ module cnt_tb;
     bit [3:0] load;
 
     $monitor("[%0t] down=%0b load_en=%0b load=0x%0h count=0x%0h rollover=%0b",
-    	$time, cnt_if0.down, cnt_if0.load_en, cnt_if0.load, cnt_if0.count, cnt_if0.rollover);
+    $time, cnt_if0.down, cnt_if0.load_en, cnt_if0.load, cnt_if0.count, cnt_if0.rollover);
 
     // Initialize testbench variables
     clk = 0;
@@ -52,4 +53,5 @@ module cnt_tb;
     repeat(5) @ (posedge clk);
     $finish;
   end
+
 endmodule
