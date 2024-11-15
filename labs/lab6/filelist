@@ -1,4 +1,4 @@
 ./src/packages/reg_ctrl_if.sv
 ./src/packages/verif_env.sv
-./src/packages/reg_ctrl.sv
+./src/rtl/reg_ctrl.sv
 ./src/test/tb.sv

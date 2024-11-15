@@ -3,16 +3,16 @@ class reg_item;
   // This is the base transaction object that will be used
   // in the environment to initiate new transactions and
   // capture transactions at DUT interface
-  rand 	bit [7:0] 	addr;
-  rand 	bit [15:0] 	wdata;
-  		  bit [15:0] 	rdata;
-  rand 	bit 		wr;
+  rand 	bit [7:0]   addr;
+  rand 	bit [15:0]  wdata;
+        bit [15:0]  rdata;
+  rand 	bit         wr;
 
   // This function allows us to print contents of the data packet
   // so that it is easier to track in a logfile
   function void print(string tag="");
     $display ("T=%0t [%s] addr=0x%0h wr=%0d wdata=0x%0h rdata=0x%0h",
-              			$time, tag, addr, wr, wdata, rdata);
+                    $time, tag, addr, wr, wdata, rdata);
   endfunction
 endclass
 
@@ -36,7 +36,7 @@ class driver;
 
       $display ("T=%0t [Driver] waiting for item ...", $time);
       drv_mbx.get(item);
-	  item.print("Driver");
+    item.print("Driver");
       vif.sel <= 1;
       vif.addr 	<= item.addr;
       vif.wr 	<= item.wr;
@@ -60,7 +60,7 @@ endclass
 // using another mailbox.
 class monitor;
   virtual reg_if vif;
-  mailbox scb_mbx; 		// Mailbox connected to scoreboard
+  mailbox scb_mbx;  // Mailbox connected to scoreboard
 
   task run();
     $display ("T=%0t [Monitor] starting ...", $time);
@@ -79,7 +79,7 @@ class monitor;
 
         if (!vif.wr) begin
           @(posedge vif.clk);
-        	item.rdata = vif.rdata;
+          item.rdata = vif.rdata;
         end
         item.print("Monitor");
         scb_mbx.put(item);
@@ -115,11 +115,11 @@ class scoreboard;
         if (!item.wr) begin
           if (refq[item.addr] == null)
             if (item.rdata != 'h1234)
-              	$display ("T=%0t [Scoreboard] ERROR! First time read, addr=0x%0h exp=1234 act=0x%0h",
-                        											$time, item.addr, item.rdata);
-          	else
-          		$display ("T=%0t [Scoreboard] PASS! First time read, addr=0x%0h exp=1234 act=0x%0h",
-                    												$time, item.addr, item.rdata);
+                $display ("T=%0t [Scoreboard] ERROR! First time read, addr=0x%0h exp=1234 act=0x%0h",
+                                              $time, item.addr, item.rdata);
+            else
+              $display ("T=%0t [Scoreboard] PASS! First time read, addr=0x%0h exp=1234 act=0x%0h",
+                                            $time, item.addr, item.rdata);
           else
             if (item.rdata != refq[item.addr].wdata)
               $display ("T=%0t [Scoreboard] ERROR! addr=0x%0h exp=0x%0h act=0x%0h",
@@ -161,9 +161,9 @@ class env;
     s0.scb_mbx = scb_mbx;
 
     fork
-    	s0.run();
-		  d0.run();
-    	m0.run();
+      s0.run();
+      d0.run();
+      m0.run();
     join_any
   endtask
 
@@ -185,7 +185,7 @@ class new_test;
     e0.d0.drv_mbx = drv_mbx;
 
     fork
-    	e0.run();
+      e0.run();
     join_none
 
     apply_stim();
