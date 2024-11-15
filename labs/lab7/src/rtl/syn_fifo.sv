@@ -39,7 +39,7 @@ module syn_fifo (
   logic [ADDR_WIDTH-1:0] rd_pointer;
   logic [ADDR_WIDTH :0] status_cnt;
   logic [DATA_WIDTH-1:0] o_data_out ;
-  logic [DATA_WIDTH-1:0] data_ram ;
+  wire  [DATA_WIDTH-1:0] data_ram ;
 
   //-----------Variable assignments---------------
   assign o_full = (status_cnt == (RAM_DEPTH-1));
@@ -91,16 +91,16 @@ module syn_fifo (
   end
 
   ram_dp_ar_aw #(DATA_WIDTH,ADDR_WIDTH) DP_RAM (
-    .address_0 (wr_pointer),  // address_0 input 
-    .data_0    (i_data_in),   // data_0 bi-directional
-    .cs_0      (i_wr_cs),     // chip select
-    .we_0      (i_wr_en),     // write enable
-    .oe_0      (1'b0),        // output enable
-    .address_1 (rd_pointer),  // address_q input
-    .data_1    (data_ram),    // data_1 bi-directional
-    .cs_1      (i_rd_cs),     // chip select
-    .we_1      (1'b0),        // Read enable
-    .oe_1      (i_rd_en)      // output enable
+    .i_address_0 (wr_pointer),  // address_0 input 
+    .i_o_data_0  (i_data_in),   // data_0 bi-directional
+    .i_cs_0      (i_wr_cs),     // chip select
+    .i_we_0      (i_wr_en),     // write enable
+    .o_oe_0      (1'b0),        // output enable
+    .i_address_1 (rd_pointer),  // address_q input
+    .i_o_data_1  (data_ram),    // data_1 bi-directional
+    .i_cs_1      (i_rd_cs),     // chip select
+    .i_we_1      (1'b0),        // Read enable
+    .i_oe_1      (i_rd_en)      // output enable
   );
 
 endmodule

@@ -1,5 +1,3 @@
-`ifndef FIFO_PORTS_SV
-`define FIFO_PORTS_SV
 
 interface fifo_ports (
   input  logic        i_clk,
@@ -15,7 +13,6 @@ interface fifo_ports (
 );
 endinterface
 
-
 interface fifo_monitor_ports (
   input logic         i_clk,
   input logic         i_rst,
@@ -29,6 +26,3 @@ interface fifo_monitor_ports (
   input logic [7:0]   i_data_out
 );
 endinterface
-
-
-`endif
