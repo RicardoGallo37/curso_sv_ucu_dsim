@@ -43,8 +43,8 @@ simulations:
       1ns/100ps -waves waves_FIFO_lab_5_2.mxd -build-all
   - name: LAB_6_test
     options: >-
-      -top test_FIFO -sv -j 10 -L LAB_5_2_library +acc +b -g -timescale
-      1ns/100ps -waves waves_FIFO_lab_5_2.mxd -build-all
+      -top tb -sv -j 10 -L LAB_6_library +acc +b -g -timescale 1ns/1ps -waves
+      waves_reg_lab_6.mxd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist
