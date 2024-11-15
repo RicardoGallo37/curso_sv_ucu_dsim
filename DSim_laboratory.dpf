@@ -37,6 +37,10 @@ simulations:
     options: >-
       -top cnt_tb -sv -j 10 -L LAB_5_1_library +acc +b -g -timescale 1ns/1ps
       -waves waves_counter_intf.mxd -build-all -dump-agg
+  - name: LAB_5_2_test_FIFO
+    options: >-
+      -top test_FIFO -sv -j 10 -L LAB_5_2_library +acc +b -g -timescale
+      1ns/100ps -waves waves_FIFO_lab_5_2.mxd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist

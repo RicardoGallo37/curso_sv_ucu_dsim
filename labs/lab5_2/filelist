@@ -1,0 +1,5 @@
+./src/synth_prim_library.sv
+./src/bus_definitions.sv
+./src/RegFile.sv
+./src/fifosc.sv
+./src/test_FIFO.sv

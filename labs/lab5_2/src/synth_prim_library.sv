@@ -14,12 +14,12 @@
 
 module Counter#(parameter mx_cnt = 32) (
   output logic [$clog2(mx_cnt)-1:0] count,
-  input  logic clk,
+  input  logic i_clk,
   input  logic rst);
  
      
 
-  always_ff @(posedge clk, posedge rst)
+  always_ff @(posedge i_clk, posedge rst)
        if (rst)
            count <= 0;
        else
@@ -43,38 +43,38 @@ endmodule
 
 
 //////////////////////////////////////////////////////////////////////
-// Definition of a D flip flop with asyncronous reset, writing enable  //
+// Definition of a D flip flop with asyncronous i_reset, writing enable  //
 /////////////////////////////////////////////////////////////////////
 
 module dff_async_rst_en (
   input  logic data,
-  input  logic clk,
-  input  logic reset,
-  input  logic wr_en,
+  input  logic i_clk,
+  input  logic i_reset,
+  input  logic i_wr_en,
   output logic q);
 
-  always_ff @ ( posedge clk, posedge reset)    
-    if (reset) begin
+  always_ff @ ( posedge i_clk, posedge i_reset)    
+    if (i_reset) begin
       q <= 1'b0;
     end  
-      else if (wr_en) begin
+      else if (i_wr_en) begin
             q <= data;
             end
 
 endmodule
 
 //////////////////////////////////////////////////////////
-// Definition of a D flip flop with asyncronous reset  //
+// Definition of a D flip flop with asyncronous i_reset  //
 /////////////////////////////////////////////////////////
 
 module dff_async_rst (
   input  logic data,
-  input  logic clk,
-  input  logic reset,
+  input  logic i_clk,
+  input  logic i_reset,
   output reg q);
 
-  always_ff @ ( posedge clk, posedge reset)    
-    if (reset) begin
+  always_ff @ ( posedge i_clk, posedge i_reset)    
+    if (i_reset) begin
       q <= 1'b0;
     end  else begin
       q <= data;
@@ -83,35 +83,35 @@ module dff_async_rst (
 endmodule
 
 //////////////////////////////////////////////////////////
-// Definition of a D Latch  with asyncronous reset  //
+// Definition of a D Latch  with asyncronous i_reset  //
 /////////////////////////////////////////////////////////
 
 module dltch_async_rst (
   input  logic data,
-  input  logic clk,
-  input  logic reset,
+  input  logic i_clk,
+  input  logic i_reset,
   output logic q);
 
   always_latch   
-    if (reset) begin
+    if (i_reset) begin
       q <= 1'b0;
-    end  else if (clk) begin
+    end  else if (i_clk) begin
       q <= data;
     end
 
 endmodule
 
 //////////////////////////////////////////////////////////
-// Definition of a D Latch  without  reset  //
+// Definition of a D Latch  without  i_reset  //
 /////////////////////////////////////////////////////////
 
 module dltch (
   input data,
-  input clk,
+  input i_clk,
   output reg q);
 
   always_latch    
-    if (clk) begin
+    if (i_clk) begin
       q <= data;
     end
 
@@ -121,16 +121,16 @@ endmodule
 // Definition of the prll D register with flops
 ///////////////////////////////////////////////////////////////////////
 
-module prll_d_reg #(parameter bits = 32)(
-  input  logic clk,
-  input  logic reset,
-  input  logic [bits-1:0] D_in,
-  output logic [bits-1:0] D_out
+module prll_d_reg #(parameter BITS = 32)(
+  input  logic i_clk,
+  input  logic i_reset,
+  input  logic [BITS-1:0] i_D_in,
+  output logic [BITS-1:0] o_D_out
 );
   genvar i;
   generate
-    for(i = 0; i < bits; i=i+1) begin:bit_
-      dff_async_rst prll_regstr_(.data(D_in[i]),.clk(clk),.reset(reset),.q(D_out[i]));
+    for(i = 0; i < BITS; i=i+1) begin:bit_
+      dff_async_rst prll_regstr_(.data(i_D_in[i]),.i_clk(i_clk),.i_reset(i_reset),.q(o_D_out[i]));
     end
   endgenerate
 
@@ -140,17 +140,17 @@ endmodule
 // Definition of the prll D register with flops (enabled writing)
 ///////////////////////////////////////////////////////////////////////
 
-module prll_d_en_reg #(parameter bits = 32)(
-  input  logic clk,
-  input  logic reset,
-  input  logic wr_en,
-  input  logic [bits-1:0] D_in,
-  output logic [bits-1:0] D_out
+module prll_d_en_reg #(parameter BITS = 32)(
+  input  logic i_clk,
+  input  logic i_reset,
+  input  logic i_wr_en,
+  input  logic [BITS-1:0] i_D_in,
+  output logic [BITS-1:0] o_D_out
 );
   genvar i;
   generate
-    for(i = 0; i < bits; i=i+1) begin:bit_
-      dff_async_rst_en prll_regstr_en_(.data(D_in[i]),.clk(clk),.reset(reset),.q(D_out[i]),.wr_en(wr_en));
+    for(i = 0; i < BITS; i=i+1) begin:bit_
+      dff_async_rst_en prll_regstr_en_(.data(i_D_in[i]),.i_clk(i_clk),.i_reset(i_reset),.q(o_D_out[i]),.i_wr_en(i_wr_en));
     end
   endgenerate
 
@@ -160,15 +160,15 @@ endmodule
 // Definition of the prll D register with latches 
 ///////////////////////////////////////////////////////////////////////
 
-module prll_d_ltch_no_rst #(parameter bits = 32)(
-  input  logic clk,
-  input  logic [bits-1:0] D_in,
-  output logic [bits-1:0] D_out
+module prll_d_ltch_no_rst #(parameter BITS = 32)(
+  input  logic i_clk,
+  input  logic [BITS-1:0] i_D_in,
+  output logic [BITS-1:0] o_D_out
 );
   genvar i;
   generate
-    for(i = 0; i < bits; i=i+1) begin:bit_
-      dltch prll_regstr_(.data(D_in[i]),.clk(clk),.q(D_out[i]));
+    for(i = 0; i < BITS; i=i+1) begin:bit_
+      dltch prll_regstr_(.data(i_D_in[i]),.i_clk(i_clk),.q(o_D_out[i]));
     end
   endgenerate
 
@@ -178,16 +178,16 @@ endmodule
 // Definition of the prll D register with latches 
 ///////////////////////////////////////////////////////////////////////
 
-module prll_d_ltch #(parameter bits = 32)(
-  input  logic clk,
-  input  logic reset,
-  input  logic [bits-1:0] D_in,
-  output logic [bits-1:0] D_out
+module prll_d_ltch #(parameter BITS = 32)(
+  input  logic i_clk,
+  input  logic i_reset,
+  input  logic [BITS-1:0] i_D_in,
+  output logic [BITS-1:0] o_D_out
 );
   genvar i;
   generate
-    for(i = 0; i < bits; i=i+1) begin:bit_
-      dltch_async_rst prll_regstr_(.data(D_in[i]),.clk(clk),.reset(reset),.q(D_out[i]));
+    for(i = 0; i < BITS; i=i+1) begin:bit_
+      dltch_async_rst prll_regstr_(.data(i_D_in[i]),.i_clk(i_clk),.i_reset(i_reset),.q(o_D_out[i]));
     end
   endgenerate
 
@@ -263,4 +263,3 @@ parameter Size_input=3,
 	//always
 
 endmodule
-
