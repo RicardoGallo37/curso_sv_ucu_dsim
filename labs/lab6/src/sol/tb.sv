@@ -8,14 +8,14 @@ module tb;
   always #10 clk = ~clk;
   reg_if _if (clk);
 
-  reg_ctrl u0 ( .clk    (clk),
-                .addr   (_if.addr),
-                .rstn   (_if.rstn),
-                .sel    (_if.sel),
-                .wr     (_if.wr),
-                .wdata  (_if.wdata),
-                .rdata  (_if.rdata),
-                .ready  (_if.ready));
+  reg_ctrl u0 ( .i_clk    (clk),
+                .i_addr   (_if.addr),
+                .i_rstn   (_if.rstn),
+                .i_sel    (_if.sel),
+                .i_wr     (_if.wr),
+                .i_wdata  (_if.wdata),
+                .o_rdata  (_if.rdata),
+                .o_ready  (_if.ready));
 
   initial begin
     new_test t0;
