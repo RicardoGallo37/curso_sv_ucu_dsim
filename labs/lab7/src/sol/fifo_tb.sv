@@ -1,6 +1,3 @@
-`include "../rtl/ram_dp_ar_aw.sv"
-`include "../rtl/syn_fifo.sv"
-`include "./fifo_top.sv"
 
 module fifo_tb();
 
