@@ -140,4 +140,5 @@ class fifo_driver;
     rdDone = 1;
   end
   endtask
+
 endclass
