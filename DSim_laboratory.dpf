@@ -49,6 +49,10 @@ simulations:
     options: >-
       -top placeholder -sv -j 10 -L LAB_8_library +acc +b -g -timescale 1ns/1ps
       -waves waves_lab_8.mxd -build-all
+  - name: LAB_7_test
+    options: >-
+      -top fifo_tb -sv -j 10 -L LAB_7_library +acc +b -g -timescale 1ns/1ps
+      -waves waves_lab_7.mxd -build-all
 source_files:
   - language: verilog
     path: labs/lab1/filelist

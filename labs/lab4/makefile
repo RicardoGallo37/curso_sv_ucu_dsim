@@ -35,8 +35,21 @@ gui_rf:
 
 clean :
 	rm -rf ./target
+	rm -rf ./dsim_work
 
 setup_sim :
 	mkdir -p target/log
 	mkdir -p target/sim_static
 	. ./setup.sh
+
+run_dsim_RF_test :
+	mkdir -p dsim_work
+	cd dsim_work
+	dvlcom -sv -F ./filelist
+	dsim -top test_RF -sv -j 10 -L work +acc +b -g -timescale 1ns/100ps -waves waves_register_file.mxd -build-all
+
+run_dsim_FIFO_test :
+	mkdir -p dsim_work
+	cd dsim_work
+	dvlcom -sv -F ./filelist
+	dsim -top test_FIFO -sv -j 10 -L work +acc +b -g -timescale 1ns/100ps -waves waves_FIFO.mxd -build-all

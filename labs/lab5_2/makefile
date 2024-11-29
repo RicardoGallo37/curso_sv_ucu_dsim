@@ -23,7 +23,14 @@ all : setup_sim worklib compile optimize sim
 
 clean :
 	rm -rf ./target
+	rm -rf ./dsim_work
 
 setup_sim :
 	mkdir -p target/log
 	mkdir -p target/sim_static
+
+run_dsim :
+	mkdir -p dsim_work
+	cd dsim_work
+	dvlcom -sv -F ./filelist
+	dsim -top test_FIFO -sv -j 10 -L work +acc +b -g -timescale 1ns/100ps -waves waves_FIFO_lab_5_2.mxd -build-all

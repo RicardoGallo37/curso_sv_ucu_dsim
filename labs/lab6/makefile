@@ -19,8 +19,15 @@ gui :
 
 clean :
 	rm -rf ./target
+	rm -rf ./dsim_work
 
 setup_sim :
 	mkdir -p target/log
 	mkdir -p target/sim_static
 	. ./setup.sh
+
+run_dsim :
+	mkdir -p dsim_work
+	cd dsim_work
+	dvlcom -sv -F ./filelist
+	dsim -top tb -sv -j 10 -L work +acc +b -g -timescale 1ns/1ps -waves waves_reg_lab_6.mxd -build-all
